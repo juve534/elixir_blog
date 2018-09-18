@@ -1,5 +1,5 @@
-defmodule ElixirBlog.PageControllerTest do
-  use ElixirBlog.ConnCase
+defmodule ElixirBlogWeb.PageControllerTest do
+  use ElixirBlogWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"
