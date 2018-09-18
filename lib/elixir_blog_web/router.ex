@@ -20,7 +20,9 @@ defmodule ElixirBlogWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", ElixirBlogWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", ElixirBlogWeb do
+     pipe_through :api
+
+     resources "/articles", ArticleController, except: [:new, :edit]
+  end
 end
