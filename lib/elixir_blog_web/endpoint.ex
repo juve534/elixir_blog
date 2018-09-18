@@ -1,7 +1,7 @@
-defmodule ElixirBlog.Endpoint do
+defmodule ElixirBlogWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :elixir_blog
 
-  socket "/socket", ElixirBlog.UserSocket
+  socket "/socket", ElixirBlogWeb.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -19,7 +19,6 @@ defmodule ElixirBlog.Endpoint do
     plug Phoenix.CodeReloader
   end
 
-  plug Plug.RequestId
   plug Plug.Logger
 
   plug Plug.Parsers,
@@ -36,7 +35,22 @@ defmodule ElixirBlog.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_elixir_blog_key",
-    signing_salt: "1yM/k6qW"
+    signing_salt: "0hjTPt+5"
 
-  plug ElixirBlog.Router
+  plug ElixirBlogWeb.Router
+
+  @doc """
+  Callback invoked for dynamically configuring the endpoint.
+
+  It receives the endpoint configuration and checks if
+  configuration should be loaded from the system environment.
+  """
+  def init(_key, config) do
+    if config[:load_from_system_env] do
+      port = System.get_env("PORT") || raise "expected the PORT environment variable to be set"
+      {:ok, Keyword.put(config, :http, [:inet6, port: port])}
+    else
+      {:ok, config}
+    end
+  end
 end
